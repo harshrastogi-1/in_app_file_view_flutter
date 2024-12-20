@@ -1,8 +1,3 @@
-/// @Describe: The type of view
-///
-/// @Author: LiWeNHuI
-/// @Date: 2022/2/15
-
 enum ViewStatus {
   /// Not initialized
   NONE,

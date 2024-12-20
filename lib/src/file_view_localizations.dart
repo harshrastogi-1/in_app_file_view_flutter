@@ -3,11 +3,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// @Describe: LocalizationsDelegate
-///
-/// @Author: LiWeNHuI
-/// @Date: 2022/2/15
-
 class FileViewLocalizationsDelegate
     extends LocalizationsDelegate<FileViewLocalizations> {
   const FileViewLocalizationsDelegate();

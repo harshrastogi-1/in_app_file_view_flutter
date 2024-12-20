@@ -1,8 +1,3 @@
-/// @Describe: The state of X5 kernel.
-///
-/// @Author: LiWeNHuI
-/// @Date: 2022/9/11
-
 enum X5Status {
   /// Not initialized
   NONE,
