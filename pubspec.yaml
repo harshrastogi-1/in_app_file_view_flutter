@@ -35,16 +35,16 @@ flutter:
   # adding or updating assets for this project.
   plugin:
     platforms:
-#      android:
-#        package: com.file.view
-#        pluginClass: InAppFileViewPlugin
+      #      android:
+      #        package: com.file.view
+      #        pluginClass: FlutterInAppFileViewPlugin
       ios:
-        pluginClass: FlutterInAppFileViewPlugin
-    # This plugin project was generated without specifying any
-    # platforms with the `--platform` argument. If you see the `some_platform` map below, remove it and
-    # then add platforms following the instruction here:
-    # https://flutter.dev/to/pubspec-plugin-platforms
-    # -------------------
+        pluginClass: InAppFileViewPlugin
+      # This plugin project was generated without specifying any
+      # platforms with the `--platform` argument. If you see the `some_platform` map below, remove it and
+      # then add platforms following the instruction here:
+      # https://flutter.dev/to/pubspec-plugin-platforms
+      # -------------------
       some_platform:
         pluginClass: somePluginClass
     # -------------------

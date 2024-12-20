@@ -1,9 +1,3 @@
-//
-//  FileViewWKWebView.swift
-//  flutter_file_view
-//
-//  Created by LiWeNHuI on 2022/10/7.
-//
 
 import UIKit
 import WebKit

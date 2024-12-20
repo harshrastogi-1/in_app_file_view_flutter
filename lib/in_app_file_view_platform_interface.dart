@@ -26,11 +26,4 @@ abstract class InAppFileViewPlatform extends PlatformInterface {
   Future<String?> getPlatformVersion() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
-
-  void init({
-    bool canDownloadWithoutWifi = true,
-    bool canOpenDex2Oat = true,
-  }) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
 }

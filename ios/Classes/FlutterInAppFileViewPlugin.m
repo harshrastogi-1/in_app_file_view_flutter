@@ -10,6 +10,6 @@
 
 @implementation FlutterInAppFileViewPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-    [SwiftFlutterInAppFileViewPlugin registerWithRegistrar:registrar];
+    [InAppFileViewPlugin registerWithRegistrar:registrar];
 }
 @end
