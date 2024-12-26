@@ -51,9 +51,7 @@ class _HomePageState extends State<HomePage> {
     'FileTest.docx',
     'FileTest.doc',
     'FileTest.xlsx',
-    'FileTest.xls',
     'FileTest.pptx',
-    'FileTest.ppt',
     'FileTest.pdf',
     'FileTest.txt',
   ];
