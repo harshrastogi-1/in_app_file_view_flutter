@@ -1,15 +1,21 @@
 # in_app_file_view
 
-A new Flutter plugin project.
+A Flutter plugin to view various file types (PDF, DOC, PPT, Excel, etc.) within your app on iOS. It allows for smooth in-app viewing of files with a clean and user-friendly experience.
+
+## Features
+
+- View PDFs, DOCs, PPTs, Excel, and other supported file types.
+- Integrated with native iOS code for file viewing.
+- Optimized for performance and seamless user experience.
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/to/develop-plugins),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+This plugin allows Flutter apps to view files directly in the app. It supports iOS, and currently, it is not available for Android.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
 
+To add `in_app_file_view` to your Flutter project, add it to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  in_app_file_view: ^0.0.1
