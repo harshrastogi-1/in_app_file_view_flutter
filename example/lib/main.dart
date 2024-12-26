@@ -18,8 +18,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    FlutterFileView.init();
-
     super.initState();
   }
 
@@ -32,7 +30,7 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         FileViewLocalizationsDelegate.delegate,
       ],
-      supportedLocales: <Locale>[Locale('en', 'US'), Locale('zh', 'CN')],
+      supportedLocales: <Locale>[Locale('en', 'US')],
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
@@ -56,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     'FileTest.xls',
     'FileTest.pptx',
     'FileTest.ppt',
-    'https://pdfobject.com/pdf/sample.pdf',
+    'FileTest.pdf',
     'FileTest.txt',
   ];
 

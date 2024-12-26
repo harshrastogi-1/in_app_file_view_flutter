@@ -28,6 +28,7 @@ class _FileViewPageState extends State<FileViewPage> {
           Expanded(
             child: FileView(
               controller: widget.controller,
+              progressColor: Colors.red,
             ),
           ),
         ],

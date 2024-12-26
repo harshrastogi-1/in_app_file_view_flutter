@@ -13,29 +13,47 @@ import 'flutter_file_view.dart';
 class FileView extends StatefulWidget {
   // ignore: public_member_api_docs
   const FileView({
-    Key? key,
+    super.key,
     required this.controller,
-    this.onCustomViewStatusBuilder,
-    this.onCustomX5StatusBuilder,
+    // this.onCustomX5StatusBuilder,
     this.tipTextStyle,
     this.buttonTextStyle,
-  }) : super(key: key);
+    this.progressColor,
+    this.unSupportedFileTypeWidget,
+    this.unSupportedPlatformWidget,
+    this.nonExistentWidget,
+  });
 
   /// The [FileViewController] responsible for the file being rendered in this
   /// widget.
   final FileViewController controller;
 
   /// According to different states, display the corresponding layout.
-  final OnCustomViewStatusBuilder? onCustomViewStatusBuilder;
-
-  /// According to different states, display the corresponding layout.
-  final OnCustomX5StatusBuilder? onCustomX5StatusBuilder;
+  // final OnCustomX5StatusBuilder? onCustomX5StatusBuilder;
 
   /// The style of the text for the prompt.
   final TextStyle? tipTextStyle;
 
   /// The style of the text for button.
   final TextStyle? buttonTextStyle;
+
+  /// The color of the progress while loading.
+  final Color? progressColor;
+
+  /// Widget to display when the platform is unsupported.
+  /// This widget is shown as a fallback when the application
+  /// encounters an unsupported platform scenario.
+  final Widget? unSupportedPlatformWidget;
+
+  /// Widget to display when the file type is unsupported.
+  /// This widget is used to inform the user that the provided
+  /// file type cannot be handled by the application.
+  final Widget? unSupportedFileTypeWidget;
+
+  /// Widget to display when the requested resource does not exist.
+  /// This widget is shown when the application fails to find
+  /// the specified file, resource, or content.
+  final Widget? nonExistentWidget;
 
   @override
   State<FileView> createState() => _FileViewState();
@@ -63,14 +81,12 @@ class _FileViewState extends State<FileView> {
   @override
   void deactivate() {
     super.deactivate();
-
     controller.removeListener(_listener);
   }
 
   @override
   void dispose() {
-    FlutterFileView.currentAndroidViewNumber = 0;
-
+    // FlutterFileView.currentAndroidViewNumber = 0;
     super.dispose();
   }
 
@@ -83,21 +99,16 @@ class _FileViewState extends State<FileView> {
     if (value.viewStatus == ViewStatus.DONE) {
       return _buildDoneWidget();
     }
-
-    Widget? child =
-        widget.onCustomViewStatusBuilder?.call(context, value.viewStatus);
-
     if (value.viewStatus == ViewStatus.UNSUPPORTED_PLATFORM) {
-      child ??= _buildUnSupportPlatformWidget();
+      return widget.unSupportedPlatformWidget ??
+          _buildUnSupportPlatformWidget();
     } else if (value.viewStatus == ViewStatus.NON_EXISTENT) {
-      child ??= _buildNonExistentWidget();
+      return widget.nonExistentWidget ?? _buildNonExistentWidget();
     } else if (value.viewStatus == ViewStatus.UNSUPPORTED_FILETYPE) {
-      child ??= _buildUnSupportTypeWidget();
+      return widget.unSupportedFileTypeWidget ?? _buildUnSupportTypeWidget();
     } else {
-      child ??= _buildPlaceholderWidget();
+      return _buildPlaceholderWidget();
     }
-
-    return child;
   }
 
   /// The layout to display when the platform is unsupported.
@@ -125,9 +136,7 @@ class _FileViewState extends State<FileView> {
 
   /// The layout to display when complete.
   Widget _buildDoneWidget() {
-    if (isAndroid) {
-      return _createAndroidView();
-    } else if (isIOS) {
+    if (isIOS) {
       return Stack(
         children: <Widget>[
           UiKitView(
@@ -142,67 +151,70 @@ class _FileViewState extends State<FileView> {
         ],
       );
     }
+    // if (isAndroid) {
+    //   return _createAndroidView();
+    // } else
 
     return _buildUnSupportPlatformWidget();
   }
 
-  Widget _createAndroidView() {
-    if (value.x5status == X5Status.DONE) {
-      final AndroidViewConfig config =
-          controller.androidViewConfig ?? AndroidViewConfig();
-
-      return AndroidView(
-        viewType: viewName,
-        creationParams: <String, dynamic>{
-          'filePath': value.filePath,
-          'fileType': value.fileType,
-          'is_bar_show': config.isBarShow,
-          'into_downloading': config.intoDownloading,
-          'is_bar_animating': config.isBarAnimating,
-        },
-        onPlatformViewCreated: (int id) {
-          MethodChannel('${channelName}_$id').invokeMethod<void>(
-            'openFile',
-            FlutterFileView.currentAndroidViewNumber++ == 0,
-          );
-        },
-        creationParamsCodec: const StandardMessageCodec(),
-      );
-    }
-
-    Widget? child =
-        widget.onCustomX5StatusBuilder?.call(context, value.x5status);
-
-    if (value.x5status == X5Status.ERROR) {
-      child ??= showX5RetryWidget(local.engineFail);
-    } else if (value.x5status == X5Status.DOWNLOAD_SUCCESS) {
-      child ??= showX5TipWidget(local.engineDownloadSuccess);
-    } else if (value.x5status == X5Status.DOWNLOAD_FAIL) {
-      child ??= showX5RetryWidget(local.engineDownloadFail);
-    } else if (value.x5status == X5Status.DOWNLOADING) {
-      child ??= showX5TipWidget(local.engineDownloading);
-    } else if (value.x5status == X5Status.DOWNLOAD_NON_REQUIRED) {
-      child ??= showTipWidget(local.engineDownloadNonRequired);
-    } else if (value.x5status == X5Status.DOWNLOAD_CANCEL_NOT_WIFI) {
-      child ??= showX5RetryWidget(local.engineDownloadCancelNotWifi);
-    } else if (value.x5status == X5Status.DOWNLOAD_OUT_OF_ONE) {
-      child ??= showTipWidget(local.engineDownloadOutOfOne);
-    } else if (value.x5status == X5Status.DOWNLOAD_CANCEL_REQUESTING) {
-      child ??= showX5TipWidget(local.engineDownloadCancelRequesting);
-    } else if (value.x5status == X5Status.DOWNLOAD_NO_NEED_REQUEST) {
-      child ??= showX5RetryWidget(local.engineDownloadNoNeedRequest);
-    } else if (value.x5status == X5Status.DOWNLOAD_FLOW_CANCEL) {
-      child ??= showX5TipWidget(local.engineDownloadFlowCancel);
-    } else if (value.x5status == X5Status.INSTALL_SUCCESS) {
-      child ??= showX5TipWidget(local.engineInstallSuccess);
-    } else if (value.x5status == X5Status.INSTALL_FAIL) {
-      child ??= showX5RetryWidget(local.engineInstallFail);
-    } else {
-      child ??= showX5TipWidget(local.engineLoading);
-    }
-
-    return child;
-  }
+  // Widget _createAndroidView() {
+  //   if (value.x5status == X5Status.DONE) {
+  //     final AndroidViewConfig config =
+  //         controller.androidViewConfig ?? AndroidViewConfig();
+  //
+  //     return AndroidView(
+  //       viewType: viewName,
+  //       creationParams: <String, dynamic>{
+  //         'filePath': value.filePath,
+  //         'fileType': value.fileType,
+  //         'is_bar_show': config.isBarShow,
+  //         'into_downloading': config.intoDownloading,
+  //         'is_bar_animating': config.isBarAnimating,
+  //       },
+  //       onPlatformViewCreated: (int id) {
+  //         MethodChannel('${channelName}_$id').invokeMethod<void>(
+  //           'openFile',
+  //           FlutterFileView.currentAndroidViewNumber++ == 0,
+  //         );
+  //       },
+  //       creationParamsCodec: const StandardMessageCodec(),
+  //     );
+  //   }
+  //
+  //   Widget? child =
+  //       widget.onCustomX5StatusBuilder?.call(context, value.x5status);
+  //
+  //   if (value.x5status == X5Status.ERROR) {
+  //     child ??= showX5RetryWidget(local.engineFail);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_SUCCESS) {
+  //     child ??= showX5TipWidget(local.engineDownloadSuccess);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_FAIL) {
+  //     child ??= showX5RetryWidget(local.engineDownloadFail);
+  //   } else if (value.x5status == X5Status.DOWNLOADING) {
+  //     child ??= showX5TipWidget(local.engineDownloading);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_NON_REQUIRED) {
+  //     child ??= showTipWidget(local.engineDownloadNonRequired);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_CANCEL_NOT_WIFI) {
+  //     child ??= showX5RetryWidget(local.engineDownloadCancelNotWifi);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_OUT_OF_ONE) {
+  //     child ??= showTipWidget(local.engineDownloadOutOfOne);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_CANCEL_REQUESTING) {
+  //     child ??= showX5TipWidget(local.engineDownloadCancelRequesting);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_NO_NEED_REQUEST) {
+  //     child ??= showX5RetryWidget(local.engineDownloadNoNeedRequest);
+  //   } else if (value.x5status == X5Status.DOWNLOAD_FLOW_CANCEL) {
+  //     child ??= showX5TipWidget(local.engineDownloadFlowCancel);
+  //   } else if (value.x5status == X5Status.INSTALL_SUCCESS) {
+  //     child ??= showX5TipWidget(local.engineInstallSuccess);
+  //   } else if (value.x5status == X5Status.INSTALL_FAIL) {
+  //     child ??= showX5RetryWidget(local.engineInstallFail);
+  //   } else {
+  //     child ??= showX5TipWidget(local.engineLoading);
+  //   }
+  //
+  //   return child;
+  // }
 
   /// The layout to display when loading.
   Widget _buildPlaceholderWidget() {
@@ -210,49 +222,50 @@ class _FileViewState extends State<FileView> {
       child: CircularProgressIndicator(
         key: ValueKey<String>('FileView_${hashCode}_Placeholder'),
         value: value.progressValue,
+        color: widget.progressColor,
       ),
     );
   }
 
-  /// Widgets for presenting information of x5Status.
-  Widget showX5TipWidget(String tip) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          CircularProgressIndicator(
-            key: ValueKey<String>('FileView_${hashCode}_X5_Placeholder'),
-            value: value.progressValue,
-            color: Theme.of(context).primaryColor,
-            backgroundColor: value.progressValue != null
-                ? Theme.of(context).primaryColorLight
-                : null,
-          ),
-          const SizedBox(height: 20),
-          Text(tip, style: widget.tipTextStyle),
-        ],
-      ),
-    );
-  }
-
-  Widget showX5RetryWidget(String tip) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(tip, style: widget.tipTextStyle),
-          const SizedBox(height: 8),
-          ElevatedButton(
-            onPressed: () {
-              FlutterFileView.init();
-              controller.initializeForAndroid();
-            },
-            child: Text(local.retry, style: widget.buttonTextStyle),
-          ),
-        ],
-      ),
-    );
-  }
+  // /// Widgets for presenting information of x5Status.
+  // Widget showX5TipWidget(String tip) {
+  //   return Center(
+  //     child: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: <Widget>[
+  //         CircularProgressIndicator(
+  //           key: ValueKey<String>('FileView_${hashCode}_X5_Placeholder'),
+  //           value: value.progressValue,
+  //           color: Theme.of(context).primaryColor,
+  //           backgroundColor: value.progressValue != null
+  //               ? Theme.of(context).primaryColorLight
+  //               : null,
+  //         ),
+  //         const SizedBox(height: 20),
+  //         Text(tip, style: widget.tipTextStyle),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget showX5RetryWidget(String tip) {
+  //   return Center(
+  //     child: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: <Widget>[
+  //         Text(tip, style: widget.tipTextStyle),
+  //         const SizedBox(height: 8),
+  //         ElevatedButton(
+  //           onPressed: () {
+  //             FlutterFileView.init();
+  //             controller.initializeForAndroid();
+  //           },
+  //           child: Text(local.retry, style: widget.buttonTextStyle),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   /// A replacement operation for [stringTf].
   String sprintf(String stringTf, String msg) {

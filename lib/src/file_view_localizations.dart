@@ -90,7 +90,7 @@ class FileViewLocalizations extends FileViewLocalizationsBase {
       localData = localizedValues[locale!.languageCode];
     }
     if (localData == null) {
-      return localizedValues['zh']![key];
+      return localizedValues['en']![key];
     }
     return localData[key];
   }
@@ -110,7 +110,7 @@ class FileViewLocalizations extends FileViewLocalizationsBase {
   static const Map<String, Map<String, Object>> localizedValues =
       <String, Map<String, Object>>{
     'en': <String, String>{
-      'unSupportedPlatformTip': 'Only supports Android and iOS platforms.',
+      'unSupportedPlatformTip': 'Only supports iOS platforms.',
       'nonExistentTip': 'Non-existent file.',
       'unSupportedType': 'Does not support opening files of type %s.',
       'retry': 'Retry',
@@ -135,25 +135,6 @@ class FileViewLocalizations extends FileViewLocalizationsBase {
           'Engine installation is complete, please wait for initialization.',
       'engineInstallFail': 'Engine installation failed, please try again.',
       'engineLoading': 'Engine initialization, please wait.',
-    },
-    'zh': <String, String>{
-      'unSupportedPlatformTip': '仅支持Android和iOS平台',
-      'nonExistentTip': '文件不存在',
-      'unSupportedType': '不支持打开%s类型的文件',
-      'retry': '重试',
-      'engineFail': '引擎初始化失败',
-      'engineDownloadSuccess': '引擎下载完成，请等待安装',
-      'engineDownloadFail': '引擎下载失败，请重试',
-      'engineDownloading': '引擎下载中，请稍候',
-      'engineDownloadNonRequired': '引擎暂时无法下载，请重启',
-      'engineDownloadCancelNotWifi': '引擎已取消下载，请改用无线网络',
-      'engineDownloadCancelRequesting': '引擎已取消下载，请勿重复请求',
-      'engineDownloadNoNeedRequest': '引擎未进行下载，请稍后重试',
-      'engineDownloadFlowCancel': '引擎已取消下载，当前网络异常',
-      'engineDownloadOutOfOne': '引擎重试次数过多，请重启',
-      'engineInstallSuccess': '引擎安装完成，请等待初始化',
-      'engineInstallFail': '引擎安装失败，请重试',
-      'engineLoading': '引擎初始化中，请稍候',
     },
   };
 }
