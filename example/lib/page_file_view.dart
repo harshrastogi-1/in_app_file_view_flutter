@@ -22,7 +22,6 @@ class _FileViewPageState extends State<FileViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('文档')),
       body: Column(
         children: <Widget>[
           Expanded(
