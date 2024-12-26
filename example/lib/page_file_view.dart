@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_file_view/in_app_file_view.dart';
 
-/// @Describe: 本地文件视图
-///
-/// @Author: LiWeNHuI
-/// @Date: 2021/9/12
-
 class FileViewPage extends StatefulWidget {
-  // ignore: public_member_api_docs
-  const FileViewPage({Key? key, required this.controller}) : super(key: key);
+  const FileViewPage({super.key, required this.controller});
 
   /// The [FileViewController] responsible for the file being rendered in this
   /// widget.

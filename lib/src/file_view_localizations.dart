@@ -79,7 +79,7 @@ abstract class FileViewLocalizationsBase {
 
 /// localizations
 class FileViewLocalizations extends FileViewLocalizationsBase {
-  const FileViewLocalizations(Locale? locale) : super(locale);
+  const FileViewLocalizations(super.locale);
 
   static const FileViewLocalizations _static = FileViewLocalizations(null);
 
