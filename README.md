@@ -2,6 +2,12 @@
 
 A Flutter plugin to view various file types (PDF, DOC, PPT, Excel, etc.) within your app on iOS. It allows for smooth in-app viewing of files with a clean and user-friendly experience.
 
+The iOS implementation of the plugin uses WKWebView for rendering files.
+
+✅ Supported file types
+
+iOS docx,doc,xlsx,xls,pptx,ppt,pdf,txt
+
 ## Features
 
 - View PDFs, DOCs, PPTs, Excel, and other supported file types.
@@ -18,4 +24,4 @@ To add `in_app_file_view` to your Flutter project, add it to your `pubspec.yaml`
 
 ```yaml
 dependencies:
-  in_app_file_view: ^0.0.1
+  in_app_file_view: ^0.0.3
