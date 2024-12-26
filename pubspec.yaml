@@ -2,6 +2,7 @@ name: in_app_file_view
 description: "A Flutter plugin to view various file types such as PDFs, DOCs, PPTs, and Excel files."
 version: 0.0.1
 repository: "https://github.com/harshrastogi-1/in_app_file_view_flutter"
+license: "MIT"
 
 environment:
   sdk: ^3.5.4
