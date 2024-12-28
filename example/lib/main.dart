@@ -9,7 +9,7 @@ void main() => runApp(const MyApp());
 // ignore: public_member_api_docs
 class MyApp extends StatefulWidget {
   // ignore: public_member_api_docs
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
 // ignore: public_member_api_docs
 class HomePage extends StatefulWidget {
   // ignore: public_member_api_docs
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

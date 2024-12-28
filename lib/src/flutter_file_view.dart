@@ -203,8 +203,8 @@ class FileViewController extends ValueNotifier<FileViewValue> {
   Future<void> initializeForIOS() async {
     _progressController ??= StreamController<num>.broadcast();
 
-    _progressListener = _progressController?.stream.listen((_) {
-      value = value.copyWith(progressForIOS: _);
+    _progressListener = _progressController?.stream.listen((val) {
+      value = value.copyWith(progressForIOS: val);
     });
   }
 
