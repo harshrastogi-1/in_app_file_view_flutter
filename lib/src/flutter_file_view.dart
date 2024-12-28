@@ -160,13 +160,13 @@ class FileViewController extends ValueNotifier<FileViewValue> {
   /// the document.
   Future<void> initialize() async {
     if (!(isAndroid || isIOS)) {
-      value = value.copyWith(viewStatus: ViewStatus.UNSUPPORTED_PLATFORM);
+      value = value.copyWith(viewStatus: ViewStatus.unsupportedPlatform);
       return;
     }
 
     FlutterFileView._channel.setMethodCallHandler(_handler);
 
-    value = value.copyWith(viewStatus: ViewStatus.LOADING);
+    value = value.copyWith(viewStatus: ViewStatus.loading);
 
     /// The name of the file.
     final String fileName =
@@ -219,7 +219,7 @@ class FileViewController extends ValueNotifier<FileViewValue> {
       }
 
       if (file != null && FileViewTools.fileExists(filePath)) {
-        value = value.copyWith(viewStatus: ViewStatus.DONE);
+        value = value.copyWith(viewStatus: ViewStatus.done);
 
         // if (isAndroid) {
         //   await initializeForAndroid();
@@ -228,10 +228,10 @@ class FileViewController extends ValueNotifier<FileViewValue> {
           await initializeForIOS();
         }
       } else {
-        value = value.copyWith(viewStatus: ViewStatus.NON_EXISTENT);
+        value = value.copyWith(viewStatus: ViewStatus.nonExistent);
       }
     } else {
-      value = value.copyWith(viewStatus: ViewStatus.UNSUPPORTED_FILETYPE);
+      value = value.copyWith(viewStatus: ViewStatus.unsupportedFileType);
     }
   }
 
@@ -331,7 +331,7 @@ class FileViewValue {
   });
 
   /// Returns an instance for a file that hasn't been loaded.
-  FileViewValue.uninitialized() : this(viewStatus: ViewStatus.NONE);
+  FileViewValue.uninitialized() : this(viewStatus: ViewStatus.none);
 
   /// The loaded state of the view.
   final ViewStatus viewStatus;

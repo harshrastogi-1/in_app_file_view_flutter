@@ -96,15 +96,15 @@ class _FileViewState extends State<FileView> {
 
   @override
   Widget build(BuildContext context) {
-    if (value.viewStatus == ViewStatus.DONE) {
+    if (value.viewStatus == ViewStatus.done) {
       return _buildDoneWidget();
     }
-    if (value.viewStatus == ViewStatus.UNSUPPORTED_PLATFORM) {
+    if (value.viewStatus == ViewStatus.unsupportedPlatform) {
       return widget.unSupportedPlatformWidget ??
           _buildUnSupportPlatformWidget();
-    } else if (value.viewStatus == ViewStatus.NON_EXISTENT) {
+    } else if (value.viewStatus == ViewStatus.nonExistent) {
       return widget.nonExistentWidget ?? _buildNonExistentWidget();
-    } else if (value.viewStatus == ViewStatus.UNSUPPORTED_FILETYPE) {
+    } else if (value.viewStatus == ViewStatus.unsupportedFileType) {
       return widget.unSupportedFileTypeWidget ?? _buildUnSupportTypeWidget();
     } else {
       return _buildPlaceholderWidget();

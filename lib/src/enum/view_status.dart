@@ -1,19 +1,19 @@
 enum ViewStatus {
   /// Not initialized
-  NONE,
+  none,
 
   /// File is being downloaded or written
-  LOADING,
+  loading,
 
   /// Unsupported platform
-  UNSUPPORTED_PLATFORM,
+  unsupportedPlatform,
 
   /// Nonexistent file
-  NON_EXISTENT,
+  nonExistent,
 
   /// Unsupported file type
-  UNSUPPORTED_FILETYPE,
+  unsupportedFileType,
 
   /// Successfully opened file
-  DONE,
+  done,
 }
