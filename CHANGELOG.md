@@ -1,4 +1,4 @@
-## 0.1.0
+## 1.0.0
 
 * Optimization and Bug fixes & remove the  Tencent X5 kernel
 
