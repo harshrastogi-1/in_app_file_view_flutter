@@ -8,41 +8,13 @@ import 'package:flutter/services.dart';
 
 import 'constants/plugin_file_constants.dart';
 import 'enum/view_status.dart';
-import 'enum/x5_status.dart';
 import 'file_view.dart';
 import 'file_view_tools.dart';
 
 class FlutterFileView {
   static const MethodChannel _channel = MethodChannel(channelName);
 
-  /// Android uses the Tencent X5 kernel as support。
   /// iOS due to its WKWebView
-
-  // static void init({
-  //   bool canDownloadWithoutWifi = true,
-  //   bool canOpenDex2Oat = true,
-  // }) {
-  //   if (isAndroid) {
-  //     _channel.invokeMethod<void>('init', <String, bool>{
-  //       'canDownloadWithoutWifi': canDownloadWithoutWifi,
-  //       'canOpenDex2Oat': canOpenDex2Oat,
-  //     });
-  //   }
-  // }
-
-  /// Get the current state of the X5 kernel.
-  // static Future<X5Status> get x5Status async {
-  //   if (!isAndroid) {
-  //     throw PlatformException(
-  //       code: 'Unnecessary',
-  //       details: 'The `x5Status` method of the flutter_file_view plugin is '
-  //           'currently only used on the Android platform.',
-  //     );
-  //   }
-  //
-  //   final int? i = await _channel.invokeMethod<int>('x5Status');
-  //   return X5StatusExtension.getType(i);
-  // }
 
   /// Path to the temporary directory on the device that is not backed up and is
   /// suitable for storing caches of downloaded files.
@@ -54,7 +26,6 @@ class FlutterFileView {
   ///
   /// On iOS, this uses the `NSCachesDirectory` API.
   ///
-  /// On Android, this uses the `getCacheDir` API on the context.
   ///
   /// Throws a `MissingPlatformDirectoryException` if the system is unable to
   /// provide the directory.
@@ -68,9 +39,6 @@ class FlutterFileView {
     }
     return Directory(path);
   }
-
-  /// The number of currently open views.
-  static int currentAndroidViewNumber = 0;
 }
 
 /// The controller of [FileView].
@@ -90,7 +58,6 @@ class FileViewController extends ValueNotifier<FileViewValue> {
     this.dataSource, {
     this.package,
     this.customSavedFileName,
-    // this.androidViewConfig,
     this.isDelExist = true,
   })  : dataSourceType = DataSourceType.asset,
         networkConfig = null,
@@ -105,7 +72,6 @@ class FileViewController extends ValueNotifier<FileViewValue> {
     this.dataSource, {
     this.customSavedFileName,
     NetworkConfig? config,
-    // this.androidViewConfig,
     this.isDelExist = true,
   })  : dataSourceType = DataSourceType.network,
         package = null,
@@ -116,7 +82,6 @@ class FileViewController extends ValueNotifier<FileViewValue> {
   FileViewController.file(
     File file, {
     this.customSavedFileName,
-    // this.androidViewConfig,
     this.isDelExist = true,
   })  : dataSource = file.path,
         dataSourceType = DataSourceType.file,
@@ -150,16 +115,13 @@ class FileViewController extends ValueNotifier<FileViewValue> {
   /// Always empty for other document types.
   final NetworkConfig? networkConfig;
 
-  /// The relevant parameters of TbsReaderView.
-  // final AndroidViewConfig? androidViewConfig;
-
   /// Whether to delete files with the same path.
   final bool isDelExist;
 
   /// Attempts to open the given [dataSource] and load metadata about
   /// the document.
   Future<void> initialize() async {
-    if (!(isAndroid || isIOS)) {
+    if (!(isIOS)) {
       value = value.copyWith(viewStatus: ViewStatus.unsupportedPlatform);
       return;
     }
@@ -220,10 +182,6 @@ class FileViewController extends ValueNotifier<FileViewValue> {
 
       if (file != null && FileViewTools.fileExists(filePath)) {
         value = value.copyWith(viewStatus: ViewStatus.done);
-
-        // if (isAndroid) {
-        //   await initializeForAndroid();
-        // } else
         if (isIOS) {
           await initializeForIOS();
         }
@@ -235,41 +193,11 @@ class FileViewController extends ValueNotifier<FileViewValue> {
     }
   }
 
-  /// Monitor the loading status of X5 kernel.
-  // StreamController<X5Status>? _initController;
-
-  /// Monitor the download status of X5 kernel.
   /// Monitor the progress of the iOS loading.
   StreamController<num>? _progressController;
 
-  /// Monitor the loading status of X5 kernel.
-  // StreamSubscription<X5Status>? _x5StatusListener;
-
-  /// Monitor the download status of X5 kernel.
   /// Monitor the progress of the iOS loading.
   StreamSubscription<num>? _progressListener;
-
-  /// Because Android uses the X5 engine, it needs to be operated separately.
-  // Future<void> initializeForAndroid() async {
-  //   final X5Status x5Status = await FlutterFileView.x5Status;
-  //   value = value.copyWith(x5status: x5Status);
-  //
-  //   if (x5Status != X5Status.DONE) {
-  //     _initController ??= StreamController<X5Status>.broadcast();
-  //
-  //     _x5StatusListener = _initController?.stream.listen((_) {
-  //       if (_ == X5Status.DOWNLOADING) {
-  //         _progressController ??= StreamController<num>.broadcast();
-  //
-  //         _progressListener = _progressController?.stream.listen((__) {
-  //           value = value.copyWith(x5status: _, progressValue: __ / 100);
-  //         });
-  //       } else {
-  //         value = value.copyWith(x5status: _);
-  //       }
-  //     });
-  //   }
-  // }
 
   /// Used to monitor the progress of iOS loading.
   Future<void> initializeForIOS() async {
@@ -291,10 +219,6 @@ class FileViewController extends ValueNotifier<FileViewValue> {
 
   Future<void> _handler(MethodCall call) async {
     switch (call.method) {
-      case 'x5Status':
-        // _initController?.add(X5StatusExtension.getType(call.arguments as int));
-        break;
-      case 'x5DownloadProgress':
       case 'onProgress':
         _progressController?.add(num.tryParse(call.arguments.toString()) ?? 0);
         break;
@@ -306,24 +230,19 @@ class FileViewController extends ValueNotifier<FileViewValue> {
   @override
   void dispose() {
     deleteFile();
-
-    // _initController?.close();
     _progressController?.close();
-    // _x5StatusListener?.cancel();
     _progressListener?.cancel();
-
     super.dispose();
   }
 }
 
-/// The viewStatus, filePath, fileType, downloadProgress, X5Status of a
+/// The viewStatus, filePath, fileType, downloadProgress,
 /// [FileViewController].
 class FileViewValue {
   /// Constructs a file with the given values. Only [viewStatus] is required.
   /// The rest will initialize with default values when unset.
   FileViewValue({
     required this.viewStatus,
-    // this.x5status = X5Status.NONE,
     this.filePath,
     this.fileType,
     this.progressValue,
@@ -335,9 +254,6 @@ class FileViewValue {
 
   /// The loaded state of the view.
   final ViewStatus viewStatus;
-
-  /// The state of X5 kernel.
-  // final X5Status x5status;
 
   /// The path where the file is stored.
   final String? filePath;
@@ -355,7 +271,6 @@ class FileViewValue {
   /// except for any overrides passed in as arguments to [copyWith].
   FileViewValue copyWith({
     ViewStatus? viewStatus,
-    X5Status? x5status,
     String? filePath,
     String? fileType,
     double? progressValue,
@@ -363,7 +278,6 @@ class FileViewValue {
   }) {
     return FileViewValue(
       viewStatus: viewStatus ?? this.viewStatus,
-      // x5status: x5status ?? this.x5status,
       filePath: filePath ?? this.filePath,
       fileType: fileType ?? this.fileType,
       progressValue: progressValue,
@@ -419,25 +333,6 @@ class NetworkConfig {
   /// [Dio.download] `options`
   final Options? options;
 }
-
-/// The relevant parameters of TbsReaderView.
-// class AndroidViewConfig {
-//   // ignore: public_member_api_docs
-//   AndroidViewConfig({
-//     this.isBarShow = false,
-//     this.intoDownloading = false,
-//     this.isBarAnimating = false,
-//   });
-//
-//   /// The `is_bar_show` of TbsReaderView
-//   final bool isBarShow;
-//
-//   /// The `into_downloading` of TbsReaderView
-//   final bool intoDownloading;
-//
-//   /// The `is_bar_animating` of TbsReaderView
-//   final bool isBarAnimating;
-// }
 
 /// An exception thrown when a directory that should always be available on
 /// the current platform cannot be obtained.
