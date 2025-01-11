@@ -55,7 +55,8 @@ class FileViewTools {
 
   /// Verifies if a file is supported based on its type.
   static bool isSupportByType(String fileType) {
-    final RegExp regExp = RegExp(r'(doc(?:|x)|xls(?:|x)|ppt(?:|x)|pdf|txt)$');
+    final RegExp regExp = RegExp(
+        r'(doc(?:|x)|xls(?:|x)|ppt(?:|x)|pdf|txt|png|heic|jpeg|jpg|gif)$');
     return regExp.hasMatch(fileType.toLowerCase());
   }
 

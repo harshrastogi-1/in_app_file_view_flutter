@@ -54,6 +54,10 @@ class _HomePageState extends State<HomePage> {
     'FileTest.pptx',
     'FileTest.pdf',
     'FileTest.txt',
+    'FileTest.jpg',
+    'FileTest.jpeg',
+    'FileTest.png',
+    'FileTest.gif',
   ];
 
   @override
