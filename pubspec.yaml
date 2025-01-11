@@ -21,12 +21,5 @@ dev_dependencies:
 flutter:
   plugin:
     platforms:
-      #      android:
-      #        package: com.file.view
-      #        pluginClass: FlutterInAppFileViewPlugin
       ios:
         pluginClass: InAppFileViewPlugin
-      # -------------------
-#      some_platform:
-#        pluginClass: somePluginClass
-    # -------------------

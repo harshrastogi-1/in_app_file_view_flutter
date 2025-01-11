@@ -18,10 +18,3 @@ iOS docx,doc,xlsx,xls,pptx,ppt,pdf,txt
 
 This plugin allows Flutter apps to view files directly in the app. It supports iOS, and currently, it is not available for Android.
 
-### Installation
-
-To add `in_app_file_view` to your Flutter project, add it to your `pubspec.yaml` file:
-
-```yaml
-dependencies:
-  in_app_file_view: ^0.0.3
