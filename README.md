@@ -1,38 +1,42 @@
-📄 In-App File View for Flutter
+# 📄 In-App File View for Flutter
 
-A Flutter plugin designed to effortlessly view various file types (PDF, DOC, PPT, Excel, etc.) directly within your app on iOS. With its sleek integration and user-friendly interface, this plugin ensures a seamless and optimized in-app file viewing experience.
+A Flutter plugin designed to effortlessly view various file types (PDF, DOC, PPT, Excel, images, and more) directly within your app on iOS. With seamless integration and a user-friendly interface, this plugin ensures a smooth and optimised in-app file viewing experience.
 
-The iOS implementation leverages WKWebView for smooth and high-performance rendering of files.
+The iOS implementation leverages `WKWebView` for high-performance rendering of files.
 
-✨ Features at a Glance
+---
 
-📂 Wide File Type Support
-View popular formats such as:
-Documents: DOCX, DOC, TXT
-Presentations: PPTX, PPT
-Spreadsheets: XLSX, XLS
-PDF Files
-Images: PNG, JPG, JPEG, HEIC, GIF
+## ✨ Features at a Glance
 
-👉 We’ve added support for PNG, JPG, JPEG, HEIC, and GIF formats, making this plugin even more versatile.
+### 📂 Wide File Type Support
+Effortlessly view popular file formats, including:
+- **Documents**: `DOCX`, `DOC`, `TXT`
+- **Presentations**: `PPTX`, `PPT`
+- **Spreadsheets**: `XLSX`, `XLS`
+- **PDF Files** `PDF`
+- **Images**: `PNG`, `JPG`, `JPEG`, `HEIC`, `GIF`
 
-🚀 Native Integration
-Built with native iOS code to provide a polished, responsive, and reliable viewing experience.
-🛠️ Performance Optimized
+### 🚀 Native Integration
+Built with native iOS code for a polished, responsive, and reliable file viewing experience.
+
+### 🛠️ Performance Optimised
 Fast loading and smooth rendering for all supported file types.
-💡 User-Friendly Design
+
+### 💡 User-Friendly Design
 A clean and modern interface to enhance the user experience.
-🎯 Why Choose In-App File View?
 
-Say goodbye to the hassle of opening files in external apps! With this plugin, your users can view a variety of file types without leaving your app, making it perfect for productivity, education, and file-sharing applications.
+---
 
-📖 Getting Started
+## 🎯 Why Choose In-App File View?
 
-Add the plugin to your Flutter project.
-Follow the simple setup instructions.
-Start viewing files with a few lines of code!
-🔥 Now with Expanded Image Support!
-We’ve added support for PNG, JPG, JPEG, HEIC, and GIF formats, making this plugin even more versatile.
+Say goodbye to the hassle of opening files in external apps! With **In-App File View**, your users can view a variety of file types directly within your app. Whether you're building productivity tools, educational apps, or file-sharing platforms, this plugin is the perfect choice.
 
-💬 Love the Plugin?
-If you find this plugin helpful, please give it a like ⭐ to support its development and encourage future updates!
+---
+
+## 📖 Getting Started
+
+### 1. Add the Plugin to Your Project
+Include the plugin in your `pubspec.yaml`:
+```yaml
+dependencies:
+  in_app_file_view: 1.1.1

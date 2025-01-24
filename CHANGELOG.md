@@ -1,3 +1,7 @@
+## 1.1.1
+
+* Added Network Customization.
+
 ## 1.1.0
 
 * Added support for PNG, JPG, JPEG, HEIC, and GIF file types.

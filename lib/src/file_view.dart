@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 import 'constants/plugin_file_constants.dart';
@@ -152,9 +152,9 @@ class _FileViewState extends State<FileView> {
   /// The layout to display when loading.
   Widget _buildPlaceholderWidget() {
     return Center(
-      child: CircularProgressIndicator(
+      child: CupertinoActivityIndicator(
+        animating: true,
         key: ValueKey<String>('FileView_${hashCode}_Placeholder'),
-        value: value.progressValue,
         color: widget.progressColor,
       ),
     );

@@ -211,7 +211,6 @@ class FileViewController extends ValueNotifier<FileViewValue> {
   /// Delete Files.
   void deleteFile() {
     final File file = File(value.filePath ?? '');
-
     if (isDelExist && file.existsSync()) {
       file.deleteSync();
     }
@@ -313,6 +312,8 @@ class NetworkConfig {
     this.lengthHeader,
     this.data,
     this.options,
+    this.connectionTimeOut,
+    this.receiveTimeout,
   });
 
   /// [Dio.download] `queryParameters`
@@ -332,6 +333,12 @@ class NetworkConfig {
 
   /// [Dio.download] `options`
   final Options? options;
+
+  /// [Dio.download] connectTimeOut
+  final Duration? connectionTimeOut;
+
+  /// [Dio.download] receiveTimeout
+  final Duration? receiveTimeout;
 }
 
 /// An exception thrown when a directory that should always be available on

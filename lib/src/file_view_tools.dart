@@ -75,8 +75,10 @@ class FileViewTools {
     try {
       final Dio dio = Dio(
         BaseOptions(
-          connectTimeout: const Duration(milliseconds: 90 * 1000),
-          receiveTimeout: const Duration(milliseconds: 90 * 1000),
+          connectTimeout: config?.connectionTimeOut ??
+              const Duration(milliseconds: 90 * 1000),
+          receiveTimeout:
+              config?.receiveTimeout ?? const Duration(milliseconds: 90 * 1000),
         ),
       );
 
